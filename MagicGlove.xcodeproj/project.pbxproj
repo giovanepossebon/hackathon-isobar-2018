@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		9F159A62219763C8006D19FE /* BluetoothSerial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F159A61219763C8006D19FE /* BluetoothSerial.swift */; };
+		9F159A6421976F94006D19FE /* Sentences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F159A6321976F94006D19FE /* Sentences.swift */; };
+		9F159A6721976FB9006D19FE /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F159A6621976FB9006D19FE /* StringExtensions.swift */; };
+		9F159A69219787DF006D19FE /* Beacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F159A68219787DF006D19FE /* Beacon.swift */; };
 		9FBBBE3721970CE200EC4925 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBBBE3621970CE200EC4925 /* AppDelegate.swift */; };
 		9FBBBE3921970CE200EC4925 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBBBE3821970CE200EC4925 /* HomeViewController.swift */; };
 		9FBBBE3C21970CE200EC4925 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9FBBBE3A21970CE200EC4925 /* Main.storyboard */; };
@@ -20,6 +23,9 @@
 
 /* Begin PBXFileReference section */
 		9F159A61219763C8006D19FE /* BluetoothSerial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothSerial.swift; sourceTree = "<group>"; };
+		9F159A6321976F94006D19FE /* Sentences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sentences.swift; sourceTree = "<group>"; };
+		9F159A6621976FB9006D19FE /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
+		9F159A68219787DF006D19FE /* Beacon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Beacon.swift; sourceTree = "<group>"; };
 		9FBBBE3321970CE200EC4925 /* MagicGlove.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MagicGlove.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FBBBE3621970CE200EC4925 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9FBBBE3821970CE200EC4925 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -51,6 +57,14 @@
 			path = Bluetooth;
 			sourceTree = "<group>";
 		};
+		9F159A6521976FAD006D19FE /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				9F159A6621976FB9006D19FE /* StringExtensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		9FBBBE2A21970CE200EC4925 = {
 			isa = PBXGroup;
 			children = (
@@ -70,6 +84,7 @@
 		9FBBBE3521970CE200EC4925 /* MagicGlove */ = {
 			isa = PBXGroup;
 			children = (
+				9F159A6521976FAD006D19FE /* Extensions */,
 				9F159A6021976399006D19FE /* Bluetooth */,
 				9FBBBE4B2197206A00EC4925 /* Speech */,
 				9FBBBE482197154600EC4925 /* Model */,
@@ -87,6 +102,8 @@
 			isa = PBXGroup;
 			children = (
 				9FBBBE492197155600EC4925 /* Item.swift */,
+				9F159A6321976F94006D19FE /* Sentences.swift */,
+				9F159A68219787DF006D19FE /* Beacon.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -171,11 +188,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9F159A6721976FB9006D19FE /* StringExtensions.swift in Sources */,
 				9FBBBE3921970CE200EC4925 /* HomeViewController.swift in Sources */,
 				9FBBBE4D2197208100EC4925 /* MagicGlove.swift in Sources */,
 				9F159A62219763C8006D19FE /* BluetoothSerial.swift in Sources */,
 				9FBBBE4A2197155600EC4925 /* Item.swift in Sources */,
+				9F159A69219787DF006D19FE /* Beacon.swift in Sources */,
 				9FBBBE3721970CE200EC4925 /* AppDelegate.swift in Sources */,
+				9F159A6421976F94006D19FE /* Sentences.swift in Sources */,
 				9FBBBE4F2197500D00EC4925 /* Levenshtein.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
