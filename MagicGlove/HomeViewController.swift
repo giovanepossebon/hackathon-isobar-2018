@@ -1,5 +1,6 @@
 import UIKit
 import AVKit
+import CoreBluetooth
 
 class HomeViewController: UIViewController {
 
@@ -8,12 +9,53 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        serial = BluetoothSerial(delegate: self)
         magic.delegate = self
+
     }
 
     @IBAction func didTouchRecord(_ sender: Any) {
         magic.startRecognition()
     }
+}
+
+extension HomeViewController: BluetoothSerialDelegate {
+    func serialDidReceiveString(_ message: String) {
+        print(message)
+    }
+
+    func serialDidReceiveData(_ data: Data) {
+        print(data)
+    }
+
+    func serialDidReceiveBytes(_ bytes: [UInt8]) {
+        print("bytes")
+    }
+
+    func serialDidChangeState() {
+        print(serial.centralManager.state)
+
+        serial.startScan()
+    }
+
+    func serialDidDisconnect(_ peripheral: CBPeripheral, error: NSError?) {
+        print("\(peripheral) - \(error)")
+    }
+
+    func serialDidDiscoverPeripheral(_ peripheral: CBPeripheral, RSSI: NSNumber?) {
+        print("\(peripheral) - \(RSSI)")
+
+        serial.connectToPeripheral(peripheral)
+    }
+
+    func serialDidFailToConnect(_ peripheral: CBPeripheral, error: NSError?) {
+        print("Fail")
+    }
+
+    func serialIsReady(_ peripheral: CBPeripheral) {
+        serial.sendMessageToDevice("1")
+    }
+
 }
 
 extension HomeViewController: MagicGloveDelegate {
@@ -24,7 +66,7 @@ extension HomeViewController: MagicGloveDelegate {
         if let item = Item.search(text) {
             message = "Procurando por \(item)"
         } else {
-            message = "Não entendi ô vacilão"
+            message = "Não entendi o seu vacilão"
         }
 
         let utterance = AVSpeechUtterance(string: message)
@@ -39,7 +81,7 @@ extension HomeViewController: MagicGloveDelegate {
     }
 
     func didStartRecording() {
-         print("didStartRecording")
+        print("didStartRecording")
     }
 
     func didEndRecording() {
