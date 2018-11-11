@@ -140,9 +140,9 @@ final class MagicGlove: NSObject {
         return sentence
     }
 
-    func feedback(_ text: String) {
+    func feedback(_ text: String, language: String = "pt-BR") {
         let utterance = AVSpeechUtterance(string: text)
-        utterance.voice = AVSpeechSynthesisVoice(language: "pt-BR")
+        utterance.voice = AVSpeechSynthesisVoice(language: language)
 
         let synth = AVSpeechSynthesizer()
         synth.speak(utterance)

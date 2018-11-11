@@ -2,6 +2,7 @@ import UIKit
 import CoreBluetooth
 import CoreLocation
 import AVFoundation
+import AudioToolbox
 
 class HomeViewController: UIViewController {
 
@@ -12,6 +13,8 @@ class HomeViewController: UIViewController {
     let magic = MagicGlove(with: 1, languageIdentifier: "pt_BR")
     let locationManager = CLLocationManager()
 
+    var searchingItem: Item?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,10 +24,8 @@ class HomeViewController: UIViewController {
         locationManager.delegate = self
 
         locationManager.requestAlwaysAuthorization()
-    }
 
-    @IBAction func beep(_ sender: Any) {
-        serial.sendMessageToDevice("1")
+        startMonitoring(beacon: Beacon.glove)
     }
 
     private func setupButton() {
@@ -72,12 +73,20 @@ class HomeViewController: UIViewController {
 
 extension HomeViewController: BluetoothSerialDelegate {
     func serialDidReceiveString(_ message: String) {
+        print(message)
+
+        if message.contains(find: "t:") {
+            let split = message.split(separator: "-")
+
+            if Int(split[1].components(separatedBy: ":")[1]) ?? 0 > 80 {
+                magic.feedback("Cuidado, identificada temperatura de \(split[0].components(separatedBy: ":")[1]) graus")
+            }
+        }
+
         if message == "Giozinho" {
             serial.sendMessageToDevice("e")
             serial.stopScan()
         }
-
-        print(message)
     }
 
     func serialDidChangeState() {
@@ -105,7 +114,7 @@ extension HomeViewController: BluetoothSerialDelegate {
     }
 
     func serialIsReady(_ peripheral: CBPeripheral) {
-        startMonitoring(beacon: Beacon(name: "bico", uuid: "86e55c38-7b7a-4b8f-b869-0e5c12cde3a9", major: 0, minor: 0))
+        startMonitoring(beacon: Beacon.glove)
     }
 
 }
@@ -125,18 +134,23 @@ extension HomeViewController: CLLocationManagerDelegate {
             return
         }
 
-        if let beacon = beacons.first {
-            if beacon.proximity == .immediate {
-                serial.sendMessageToDevice("1")
-            } else {
-                serial.sendMessageToDevice("0")
-            }
+        if let beacon = beacons.filter({ $0.minor.intValue == searchingItem?.id }).first {
+            print(beacon)
+            serial.sendMessageToDevice(String(beacon.gloveProximity))
         }
     }
 
 }
 
 extension HomeViewController: MagicGloveDelegate {
+
+    func recognizedSpeech(text: String) { }
+
+    func didStartRecording() { }
+
+    func didEndRecording() { }
+
+    func didPauseRecording() { }
 
     func didFinishCommand(text: String) {
         var message = ""
@@ -151,14 +165,25 @@ extension HomeViewController: MagicGloveDelegate {
             return
         }
 
+//        if text.contains(find: "cozinha") || text.contains(find: "cozinhar") {
+//            magic.feedback("Modo de cozinhar ativado!")
+//
+//            // send modo cozinhar
+//
+//            buttonMic.isSelected = false
+//            buttonMic.backgroundColor = .clear
+//            return
+//        }
+
         if !serial.isScanning {
             serial.startScan()
         }
 
         if let item = Item.search(text) {
-            message = "Procurando por \(item)"
+            message = "Procurando por \(item.name)"
+            searchingItem = item
         } else {
-            message = "Não entendi bosta nenhuma seu vacilão"
+            message = "Não entendi o que você quis dizer"
             serial.stopScan()
 
         }
@@ -169,19 +194,4 @@ extension HomeViewController: MagicGloveDelegate {
         buttonMic.backgroundColor = .clear
     }
 
-    func recognizedSpeech(text: String) {
-        print("recognizedSppech: \(text)")
-    }
-
-    func didStartRecording() {
-        print("didStartRecording")
-    }
-
-    func didEndRecording() {
-        print("didEndRecording")
-    }
-
-    func didPauseRecording() {
-        print("didPauseRecording")
-    }
 }
