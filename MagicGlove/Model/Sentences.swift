@@ -1,6 +1,8 @@
 struct Sentences {
 
-    struct Busca {
+    struct Search {
+        static let stopSearch = ["achei", "encontrei"]
+
         static let searchSentences = ["Quero encontrar %@",
                                       "Quero achar %@",
                                       "Quero encontrar %@",

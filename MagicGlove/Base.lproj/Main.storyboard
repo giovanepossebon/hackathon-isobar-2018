@@ -18,24 +18,54 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uyf-hv-TKv">
-                                <rect key="frame" x="163" y="318.5" width="49" height="30"/>
-                                <state key="normal" title="Record"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="aOf-lN-ZFc">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uyf-hv-TKv">
+                                <rect key="frame" x="50" y="196" width="275" height="275"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="275" id="0Dj-wB-4lV"/>
+                                    <constraint firstAttribute="height" constant="275" id="e7X-aJ-PxG"/>
+                                </constraints>
+                                <state key="normal" image="mic-white"/>
+                                <state key="selected" image="mic"/>
                                 <connections>
                                     <action selector="didTouchRecord:" destination="BYZ-38-t0r" eventType="touchUpInside" id="qee-hg-moZ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jPR-Fm-Heh">
+                                <rect key="frame" x="164" y="196" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="beep:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mdR-1s-wc9"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="aOf-lN-ZFc" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="CK4-cY-dts"/>
                             <constraint firstItem="Uyf-hv-TKv" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Cjy-vF-r0q"/>
+                            <constraint firstItem="aOf-lN-ZFc" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Inj-9G-nVC"/>
+                            <constraint firstItem="aOf-lN-ZFc" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="QiK-cE-l7v"/>
                             <constraint firstItem="Uyf-hv-TKv" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="TOU-kd-38F"/>
+                            <constraint firstItem="aOf-lN-ZFc" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="g6z-IN-kiG"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="buttonMic" destination="Uyf-hv-TKv" id="9B6-C6-QSO"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="140" y="110.19490254872565"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="background" width="320" height="568"/>
+        <image name="mic" width="63" height="103"/>
+        <image name="mic-white" width="63" height="103"/>
+    </resources>
 </document>

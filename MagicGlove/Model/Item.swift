@@ -15,7 +15,7 @@ struct Item {
             }
         }
 
-        let sentences = Sentences.Busca.searchSentences.map { $0.replacingOccurrences(of: "%@", with: result.first?.name ?? "").lowercased() }
+        let sentences = Sentences.Search.searchSentences.map { $0.replacingOccurrences(of: "%@", with: result.first?.name ?? "").lowercased() }
 
         let finalResult = sentences.filter { $0.levenshtein(sentence.tokenizedSentence()) < 6 }.first
 

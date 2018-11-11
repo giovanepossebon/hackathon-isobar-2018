@@ -22,6 +22,7 @@ final class MagicGlove: NSObject {
     private var recognitionTask: SFSpeechRecognitionTask?
     private var lastRecognizedDate = Date()
     private var speechTimer: Timer!
+    let audioSession = AVAudioSession.sharedInstance()
     private var languageIdentifier: String!
     private var candidateText = "" {
         didSet {
@@ -35,7 +36,16 @@ final class MagicGlove: NSObject {
         self.speechInterval = speechInterval
         self.languageIdentifier = languageIdentifier
         super.init()
-        setupAudioEngine()
+
+        configureAudioSession()
+    }
+
+    private func configureAudioSession() {
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playAndRecord, mode: .default, options: [.defaultToSpeaker, .mixWithOthers])
+            try AVAudioSession.sharedInstance().overrideOutputAudioPort(AVAudioSession.PortOverride.speaker)
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch { }
     }
 
     private func setupAudioEngine() {
@@ -51,6 +61,8 @@ final class MagicGlove: NSObject {
     }
 
     func startRecognition() {
+        setupAudioEngine()
+
         isListening = true
         SFSpeechRecognizer.requestAuthorization { authStatus in
             OperationQueue.main.addOperation {
@@ -70,7 +82,6 @@ final class MagicGlove: NSObject {
     }
 
     func startRecording() throws {
-        setupAudioEngine()
         if !audioEngine.isRunning {
             audioEngine.prepare()
             try audioEngine.start()
@@ -100,11 +111,11 @@ final class MagicGlove: NSObject {
             if finalSentence.isEmpty {
                 finalSentence = candidateText
             }
-            delegate?.didFinishCommand(text: finalSentence
-            )
+
             candidateText = ""
             if shouldPause {
-                pauseRecording()
+                stopRecording()
+                delegate?.didFinishCommand(text: finalSentence)
             }
         }
     }
@@ -129,7 +140,7 @@ final class MagicGlove: NSObject {
         return sentence
     }
 
-    private func feedback(_ text: String) {
+    func feedback(_ text: String) {
         let utterance = AVSpeechUtterance(string: text)
         utterance.voice = AVSpeechSynthesisVoice(language: "pt-BR")
 
